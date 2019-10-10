@@ -1,0 +1,55 @@
+version: '3.7'
+
+services:
+  traefik:
+    container_name: traefik
+    image: traefik
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+      #- 8080:8080
+    networks:
+      - web
+    #read_only: true
+    volumes:
+      - traefik-conf:/etc/traefik
+      - traefik-acme:/etc/acme
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.${DOMAINNAME}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
+      - "traefik.http.routers.traefik.service=api@internal"
+      - "traefik.http.routers.traefik.entrypoints=websecure"
+      - "traefik.http.routers.traefik.tls.certresolver=tls"
+
+  portainer:
+    container_name: portainer
+    image: portainer/portainer
+    command: -H unix:///var/run/docker.sock
+    restart: always
+    networks:
+      - web
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer-data:/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.portainer.entrypoints=websecure"
+      - "traefik.http.routers.portainer.rule=Host(`portainer.${DOMAINNAME}`)"
+      - "traefik.http.routers.portainer.tls.certResolver=tls"
+      - "traefik.http.routers.portainer.service=portainer"
+      - "traefik.http.services.portainer.loadbalancer.server.port=9000"
+      - "traefik.docker.network=web"
+
+networks:
+  web:
+    external: true
+
+volumes:
+  traefik-conf:
+    name: traefik-conf
+  traefik-acme:
+    name: traefik-acme
+  portainer-data:
+    name: portainer-data
