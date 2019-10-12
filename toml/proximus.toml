@@ -1,0 +1,13 @@
+# PROXIMUS SETTINGS
+[http.routers]
+  [http.routers.proximus]
+    entrypoints = ["websecure"]
+    service = "proximus"
+    rule = "Host(`proximus.depuydt-lauwereins.be`)"
+    [http.routers.proximus.tls]
+      certResolver = "tls"
+
+[http.services]
+  [http.services.proximus.loadBalancer]  
+    [[http.services.proximus.loadBalancer.servers]]
+      url = "http://192.168.0.1"

@@ -5,7 +5,7 @@
 #docker volume rm traefik
 
 # Creating networks
-#if [ -z "$(docker network list -f name=^web$ -q)" ]; then docker network create web; fi
+if [ -z "$(docker network list -f name=^web$ -q)" ]; then docker network create web; fi
 # Creating volumes
 #docker volume create traefik
 
