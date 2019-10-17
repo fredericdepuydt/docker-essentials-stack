@@ -9,6 +9,8 @@ services:
       - 80:80
       - 443:443
       #- 8080:8080
+    dns:
+      - 127.0.0.1
     networks:
       - web
     #read_only: true
