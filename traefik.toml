@@ -30,8 +30,9 @@
 
 [certificatesResolvers.tls.acme]
   email = "f.depuydt@outlook.com"
-  storage = "acme.json"
-  caserver = "https://acme-staging-v02.api.letsencrypt.org/directory"
+  storage = "/etc/acme/acme.json"
+  ##Staging server settings
+  #caserver = "https://acme-staging-v02.api.letsencrypt.org/directory"
   [certificatesResolvers.tls.acme.tlsChallenge]
   #[certificatesResolvers.tls.acme.httpChallenge]
     # used during the challenge
