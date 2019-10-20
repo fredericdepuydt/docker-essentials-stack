@@ -1,20 +1,20 @@
 ################################################################
-#
-# Configuration sample for Traefik v2.
-#
-# For Traefik v1: https://github.com/containous/traefik/blob/v1.7/traefik.sample.toml
-#
+##
+## Configuration sample for Traefik v2.
+##
+## For Traefik v1: https://github.com/containous/traefik/blob/v1.7/traefik.sample.toml
+##
 ################################################################
 
 ################################################################
-# Global configuration
+## Global configuration
 ################################################################
 [global]
   checkNewVersion = true
   sendAnonymousUsage = false
 
 ################################################################
-# Entrypoints configuration
+## Entrypoints configuration
 ################################################################
 
 # Entrypoints definition
@@ -45,7 +45,7 @@
 
 
 ################################################################
-# Traefik logs configuration
+## Traefik logs configuration
 ################################################################
 
 # Traefik logs
@@ -78,7 +78,7 @@
   # format = "json"
 
 ################################################################
-# Access logs configuration
+## Access logs configuration
 ################################################################
 
 # Enable access logs
@@ -105,7 +105,7 @@
   # format = "json"
 
 ################################################################
-# API and dashboard configuration
+## API and dashboard configuration
 ################################################################
 
 # Enable API and dashboard
@@ -123,11 +123,11 @@
 
 
 ################################################################
-# Ping configuration
+## Ping configuration
 ################################################################
 
 # Enable ping
-[ping]
+# [ping]
 
   # Name of the related entry point
   #
@@ -137,7 +137,7 @@
   # entryPoint = "traefik"
 
 ################################################################
-# Docker configuration backend
+## Docker configuration backend
 ################################################################
 
 # Enable Docker configuration backend
@@ -164,6 +164,11 @@
   #
   exposedByDefault = false
 
+################################################################
+## File configuration backend
+################################################################
+
+# Enable File configuration backend
 [providers.file]
   directory = "/etc/traefik/toml/"
   watch = true
