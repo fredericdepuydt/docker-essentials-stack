@@ -42,7 +42,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.portainer.entrypoints=websecure"
-      - "traefik.http.routers.portainer.rule=Host(`portainer.${DOMAINNAME}`) || Host(`traefik.${DOMAINNAME_LAN}`)"
+      - "traefik.http.routers.portainer.rule=Host(`portainer.${DOMAINNAME}`) || Host(`portainer.${DOMAINNAME_LAN}`)"
       - "traefik.http.routers.portainer.tls.certResolver=tls"
       - "traefik.http.routers.portainer.service=portainer@docker"
       - "traefik.http.services.portainer.loadbalancer.server.port=9000"
