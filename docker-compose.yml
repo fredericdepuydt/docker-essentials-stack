@@ -20,7 +20,11 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.traefik.rule=Host(`traefik.${DOMAINNAME}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
+      - "traefik.http.middlewares.traefik-redirect.redirectregex.regex=^https://([^/]+)/(|dashboard)$$"
+      - "traefik.http.middlewares.traefik-redirect.redirectregex.replacement=https://$${1}/dashboard/"
+      - "traefik.http.middlewares.traefik-redirect.redirectregex.permanent=true"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.${DOMAINNAME}`) || Host(`traefik.${DOMAINNAME_LAN}`)"
+      - "traefik.http.routers.traefik.middlewares=traefik-redirect@docker"
       - "traefik.http.routers.traefik.service=api@internal"
       - "traefik.http.routers.traefik.entrypoints=websecure"
       - "traefik.http.routers.traefik.tls.certresolver=tls"
@@ -38,9 +42,9 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.portainer.entrypoints=websecure"
-      - "traefik.http.routers.portainer.rule=Host(`portainer.${DOMAINNAME}`)"
+      - "traefik.http.routers.portainer.rule=Host(`portainer.${DOMAINNAME}`) || Host(`traefik.${DOMAINNAME_LAN}`)"
       - "traefik.http.routers.portainer.tls.certResolver=tls"
-      - "traefik.http.routers.portainer.service=portainer"
+      - "traefik.http.routers.portainer.service=portainer@docker"
       - "traefik.http.services.portainer.loadbalancer.server.port=9000"
       - "traefik.docker.network=web"
 
