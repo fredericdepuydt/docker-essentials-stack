@@ -1,0 +1,24 @@
+################################################################
+## HTTP to HTTPS
+################################################################
+
+# dummy service
+[http.services]
+  [http.services.HTTPSredirect.loadBalancer]
+    [[http.services.HTTPSredirect.loadBalancer.servers]]
+      url = "http://localhost/"
+
+[http.routers]
+  [http.routers.HTTPSredirect]
+    entryPoints = ["web"]
+    rule = "PathPrefix(`/`)"
+    middlewares = ["HTTPSredirect"]
+    service = "HTTPSredirect"
+    # lowest possible priority so that the match can be overwritten by anyone
+    priority = 1
+
+[http.middlewares]
+  [http.middlewares.HTTPSredirect.RedirectScheme]
+    scheme = "https"
+    permanent = true
+
