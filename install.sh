@@ -1,14 +1,20 @@
 #!/bin/sh
+############################################################################
+## Raspberry-Pi installation script                                       ##
+## Author: Frederic Depuydt                                               ##
+## Mail: frederic.depuydt@outlook.com                                     ##
+##                                                                        ##
+## Executing this script requires the 'depuydt' shell libraries           ##
+############################################################################
 
-# Cleaning up before install
-#docker rm -f traefik
-#docker volume rm traefik
+## INCLUDES
+. /usr/local/lib/depuydt/sh/echoes.sh
 
-# Creating networks
+## TITLE
+echo_section "DOCKER DEPLOYING:" "Essentials Stack (Installing)"
+
+# Creating external networks
 if [ -z "$(docker network list -f name=^web$ -q)" ]; then docker network create web; fi
-# Creating volumes
-#docker volume create traefik
-
 
 # Installing and copying files to volume
 #sed -i 's/^\( *\)- traefik:\/etc\/traefik:ro *$/\1- traefik:\/etc\/traefik/g' docker-compose.yml
