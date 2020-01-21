@@ -20,7 +20,7 @@ if [ -z "$(docker network list -f name=^web$ -q)" ]; then docker network create 
 #sed -i 's/^\( *\)- traefik:\/etc\/traefik:ro *$/\1- traefik:\/etc\/traefik/g' docker-compose.yml
 docker-compose up --no-start
 #docker cp acme.json traefik:/etc/traefik
-docker cp traefik.toml traefik:/etc/traefik
-docker cp toml/ traefik:/etc/traefik
+docker cp traefik.toml essentials-traefik:/etc/traefik
+docker cp toml/ essentials-traefik:/etc/traefik
 #sed -i 's/^\( *\)- traefik:\/etc\/traefik *$/\1- traefik:\/etc\/traefik:ro/g' docker-compose.yml
 #docker-compose up --no-start
