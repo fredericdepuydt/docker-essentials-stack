@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   traefik:
-    container_name: essentials-traefik
+    container_name: traefik
     image: traefik
     restart: always
     ports:
@@ -10,7 +10,6 @@ services:
       - 443:443
     networks:
       - web
-      - dns
     volumes:
       - traefik-conf:/etc/traefik
       - traefik-acme:/etc/acme
@@ -35,7 +34,7 @@ services:
 
 
   portainer:
-    container_name: essentials-portainer
+    container_name: portainer
     image: portainer/portainer
     command: -H unix:///var/run/docker.sock
     restart: always
@@ -62,8 +61,6 @@ services:
 
 networks:
   web:
-    external: true
-  dns:
     external: true
 
 volumes:

@@ -1,16 +1,24 @@
-#!/bin/sh
+#!/usr/bin/env python3
+
 ############################################################################
 ## Raspberry-Pi installation script                                       ##
 ## Author: Frederic Depuydt                                               ##
 ## Mail: frederic.depuydt@outlook.com                                     ##
 ##                                                                        ##
-## Executing this script requires the 'depuydt' shell libraries           ##
+## Executing this script requires the 'depuydt' python libraries          ##
 ############################################################################
 
 ## INCLUDES
-. /usr/local/lib/depuydt/sh/echoes.sh
+import sys
+sys.path.insert(1, '/home/pi/installation/lib/depuydt/python/');
+#sys.path.insert(1, '/usr/local/lib/depuydt/python/')
+
+from echo import echo
+from docker import docker
 
 ## TITLE
-echo_section "DOCKER DEPLOYING:" "Essentials stack"
+echo.section("DOCKER DEPLOYING","Essentials Stack (Starting)");
 
-docker-compose up -d
+## Starting All Containers
+docker.compose.up("-d");
+
