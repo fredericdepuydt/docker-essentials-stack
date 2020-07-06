@@ -10,6 +10,9 @@ services:
       - 443:443
     networks:
       - web
+      - dns    
+    dns:
+      - 10.0.0.3
     volumes:
       - traefik-conf:/etc/traefik
       - traefik-acme:/etc/acme
@@ -26,17 +29,11 @@ services:
       - "traefik.http.routers.traefik.entrypoints=websecure"
       - "traefik.http.routers.traefik.tls.certresolver=tls"
 
-      - "traefik.http.routers.traefik-lan.rule=Host(`traefik.${DOMAINNAME_LAN}`)"
-      - "traefik.http.routers.traefik-lan.middlewares=traefik-redirect@docker"
-      - "traefik.http.routers.traefik-lan.service=api@internal"
-      - "traefik.http.routers.traefik-lan.entrypoints=websecure"
-      - "traefik.http.routers.traefik-lan.tls.certresolver=tls-lan"
-
 
   portainer:
     container_name: portainer
     image: portainer/portainer
-    command: -H unix:///var/run/docker.sock
+    command: -H unix:///var/run/docker.sock --admin-password '${PORTAINER_PASSWORD_HASH}'
     restart: always
     networks:
       - web
@@ -53,14 +50,10 @@ services:
       - "traefik.http.routers.portainer.service=portainer@docker"
       - "traefik.http.services.portainer.loadbalancer.server.port=9000"
 
-      - "traefik.http.routers.portainer-lan.entrypoints=websecure"
-      - "traefik.http.routers.portainer-lan.rule=Host(`portainer.${DOMAINNAME_LAN}`)"
-      - "traefik.http.routers.portainer-lan.tls.certResolver=tls-lan"
-      - "traefik.http.routers.portainer-lan.service=portainer@docker"
-      - "traefik.http.services.portainer-lan.loadbalancer.server.port=9000"
-
 networks:
   web:
+    external: true
+  dns:
     external: true
 
 volumes:
