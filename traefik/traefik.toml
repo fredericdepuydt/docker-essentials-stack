@@ -35,27 +35,11 @@
 [certificatesResolvers.tls.acme]
   email = "f.depuydt@outlook.com"
   storage = "/etc/acme/acme.json"
-  ##Staging server settings
+  ## STAGING environment server settings
   #caserver = "https://acme-staging-v02.api.letsencrypt.org/directory"
+  ## PRODUCTION environment server settings
+  caserver = "https://acme-v02.api.letsencrypt.org/directory"
   [certificatesResolvers.tls.acme.tlsChallenge]
-  #[certificatesResolvers.tls.acme.httpChallenge]
-    # used during the challenge
-    #entryPoint = "web"
-
-[certificatesResolvers.tls-lan.acme]
-  email = "f.depuydt@outlook.com"
-  storage = "/etc/acme/acme-lan.json"
-  ##Staging server settings
-  caserver = "https://acme-staging-v02.api.letsencrypt.org/directory"
-  [certificatesResolvers.tls-lan.acme.tlsChallenge]
-  #[certificatesResolvers.tls.acme.httpChallenge]
-    # used during the challenge
-    #entryPoint = "web"
-
-
-
-
-
 
 ################################################################
 ## Traefik logs configuration
@@ -72,8 +56,8 @@
   #
   # Optional
   # Default: "ERROR"
-  # Options: "ERROR", "DEBUG"
-  level = "ERROR"
+  # Options: "ERROR", "DEBUG", "INFO"
+  level = "INFO"
 
   # Sets the filepath for the traefik log. If not specified, stdout will be used.
   # Intermediate directories are created if necessary.
