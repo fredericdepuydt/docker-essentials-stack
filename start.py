@@ -10,8 +10,7 @@
 
 ## INCLUDES
 import sys
-sys.path.insert(1, '/home/pi/installation/lib/depuydt/python/');
-#sys.path.insert(1, '/usr/local/lib/depuydt/python/')
+sys.path.insert(1, '/usr/local/lib/depuydt/python/')
 
 from echo import echo
 from docker import docker
