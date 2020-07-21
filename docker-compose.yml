@@ -9,10 +9,8 @@ services:
       - 80:80
       - 443:443
     networks:
-      - web
-      - dns    
-    dns:
-      - 10.0.0.3
+      web:
+      dns:
     volumes:
       - traefik-conf:/etc/traefik
       - traefik-acme:/etc/acme
