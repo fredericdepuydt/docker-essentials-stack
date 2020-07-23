@@ -1,0 +1,3 @@
+[submodule "traefik"]
+	path = traefik
+	url = https://github.com/fredericdepuydt/traefik-conf
