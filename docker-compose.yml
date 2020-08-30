@@ -4,7 +4,7 @@ services:
   traefik:
     container_name: traefik
     image: traefik
-    restart: always
+    restart: unless-stopped
     ports:
       - 80:80
       - 443:443
@@ -12,6 +12,7 @@ services:
     networks:
       web:
       dns:
+    #env-file: ./../../config/traefik/.env
     volumes:
       - traefik-conf:/etc/traefik
       - traefik-acme:/etc/acme
@@ -33,7 +34,8 @@ services:
     container_name: portainer
     image: portainer/portainer
     command: -H unix:///var/run/docker.sock --admin-password '${PORTAINER_PASSWORD_HASH}'
-    restart: always
+    restart: unless-stopped
+    #env-file: ./../../config/portainer/.env
     networks:
       - web
     volumes:
