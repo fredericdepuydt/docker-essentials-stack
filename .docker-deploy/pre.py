@@ -19,6 +19,7 @@ import hashlib
 
 
 # CREATING SYMBOLIC LINKS
-command.exec("ln -s ~/docker/config/traefik config/traefik")
-command.exec("ln -s ~/docker/config/portainer config/portainer")
-command.exec("ln -s ~/docker/config/authelia config/authelia")
+command.exec("mkdir ./config")
+command.exec("ln -s ~/docker/config/traefik ./config/traefik")
+command.exec("ln -s ~/docker/config/portainer ./config/portainer")
+command.exec("ln -s ~/docker/config/authelia ./config/authelia")

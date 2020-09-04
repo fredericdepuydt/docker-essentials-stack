@@ -1,2 +1,5 @@
+# Ignore Python cache
+__pycache__
+
 # Ignore all config files
-config/*
+/config

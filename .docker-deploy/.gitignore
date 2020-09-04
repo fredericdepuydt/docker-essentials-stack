@@ -1,2 +1,5 @@
+# Ignore Python cache
+__pycache__
+
 # Ignore local docker-deploy configuration
 config.json

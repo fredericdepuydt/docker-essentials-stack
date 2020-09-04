@@ -21,15 +21,17 @@ services:
       - TZ=${TZ}
     labels:
       - "traefik.enable=true"
+      
       - "traefik.http.middlewares.traefik-redirect.redirectregex.regex=^https://([^/]+)/(|dashboard)$$"
       - "traefik.http.middlewares.traefik-redirect.redirectregex.replacement=https://$${1}/dashboard/"
       - "traefik.http.middlewares.traefik-redirect.redirectregex.permanent=true"
 
       - "traefik.http.routers.traefik.rule=Host(`traefik.${DOMAINNAME}`)"
-      - "traefik.http.routers.traefik.middlewares=traefik-redirect@docker"
+      - "traefik.http.routers.traefik.middlewares=authelia@docker,traefik-redirect@docker"
       - "traefik.http.routers.traefik.service=api@internal"
       - "traefik.http.routers.traefik.entrypoints=websecure"
       - "traefik.http.routers.traefik.tls.certresolver=tls"
+
       - "traefik.http.services.traefik.loadbalancer.server.port=8083"
 
 
