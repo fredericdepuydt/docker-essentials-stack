@@ -1,0 +1,13 @@
+################################################################
+## Services on the Host itself
+################################################################
+
+[http.routers]
+  [http.routers.educat]
+    service = "host-service"
+    rule = "PathPrefix(`/path/`)"
+
+[http.services]
+  [http.services.host-service.loadBalancer]
+    [[http.services.host-service.loadBalancer.servers]]
+      url = "http://172.17.0.1:8080"
