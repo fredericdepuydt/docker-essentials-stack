@@ -21,7 +21,11 @@ services:
       - TZ=${TZ}
     labels:
       - "traefik.enable=true"
+<<<<<<< HEAD
 
+=======
+      
+>>>>>>> 0971605d06bdb94c933ea752d46da5907eaaeb0b
       - "traefik.http.middlewares.traefik-redirect.redirectregex.regex=^https://([^/]+)/(|dashboard)$$"
       - "traefik.http.middlewares.traefik-redirect.redirectregex.replacement=https://$${1}/dashboard/"
       - "traefik.http.middlewares.traefik-redirect.redirectregex.permanent=true"
