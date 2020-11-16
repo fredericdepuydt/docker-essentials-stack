@@ -80,10 +80,6 @@ services:
       - "traefik.http.routers.authelia.tls.certresolver=tls"
       - "traefik.http.services.authelia.loadbalancer.server.port=9091"
 
-      - 'traefik.http.middlewares.authelia.forwardauth.address=http://authelia:9091/api/verify?rd=https://authelia.${DOMAINNAME}'
-      - 'traefik.http.middlewares.authelia.forwardauth.trustForwardHeader=true'
-      - 'traefik.http.middlewares.authelia.forwardauth.authResponseHeaders=Remote-User, Remote-Groups'
-
 networks:
   web:
     external: true
