@@ -5,12 +5,11 @@ services:
     container_name: traefik
     image: traefik
     restart: unless-stopped
+    networks:
+      - web
     ports:
       - 80:80
       - 443:443
-    networks:
-      - web
-      - dns
     volumes:
       - traefik-conf:/etc/traefik
       - traefik-acme:/etc/acme
@@ -21,6 +20,8 @@ services:
       - TZ=${TZ}
     labels:
       - "traefik.enable=true"
+      - "traefik.docker.network=web"
+
       - "traefik.http.middlewares.traefik-redirect.redirectregex.regex=^https://([^/]+)/(|dashboard)$$"
       - "traefik.http.middlewares.traefik-redirect.redirectregex.replacement=https://$${1}/dashboard/"
       - "traefik.http.middlewares.traefik-redirect.redirectregex.permanent=true"
@@ -65,7 +66,6 @@ services:
       - ./config/authelia:/config
     networks:
       - web
-      - dns
     restart: unless-stopped
     environment:
       - PUID=${PUID}
@@ -73,6 +73,11 @@ services:
       - TZ=${TZ}
     labels:
       - "traefik.enable=true"
+      - "traefik.docker.network=web"
+
+      - "traefik.http.middlewares.authelia.forwardauth.address=http://authelia.web:9091/api/verify?rd=https://authelia.${DOMAINNAME}"
+      - "traefik.http.middlewares.authelia.forwardauth.trustForwardHeader=true"
+      - "traefik.http.middlewares.authelia.forwardauth.authResponseHeaders=Remote-User, Remote-Groups"
 
       - "traefik.http.routers.authelia.rule=Host(`authelia.${DOMAINNAME}`)"
       - "traefik.http.routers.authelia.service=authelia@docker"
@@ -82,8 +87,6 @@ services:
 
 networks:
   web:
-    external: true
-  dns:
     external: true
 
 volumes:
