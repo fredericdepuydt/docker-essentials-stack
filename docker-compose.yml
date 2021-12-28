@@ -7,7 +7,7 @@ services:
     restart: unless-stopped
     networks:
       dmz:
-        ipv4_address: 192.168.7.11
+        ipv4_address: ${DOCKER_TRAEFIK_IP}
       web:
     volumes:
       #- traefik-conf:/etc/traefik
