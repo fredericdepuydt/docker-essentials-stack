@@ -1,0 +1,15 @@
+################################################################
+# TLS Encryption - CertificatesResolvers
+################################################################
+
+[certificatesResolvers.tls.acme]
+  email = "mail@example.com"
+  storage = "/etc/acme/acme.json"
+  caserver = "https://acme-v02.api.letsencrypt.org/directory"
+  [certificatesResolvers.tls.acme.tlsChallenge]
+
+[certificatesResolvers.tls-staging.acme]
+  email = "mail@example.com"
+  storage = "/etc/acme/acme-staging.json"
+  caserver = "https://acme-staging-v02.api.letsencrypt.org/directory"
+  [certificatesResolvers.tls-staging.acme.tlsChallenge]
