@@ -3,15 +3,16 @@ version: '3.7'
 services:
   traefik:
     container_name: traefik
-    image: traefik
+    image: traefik:v2.5.2
     restart: unless-stopped
     networks:
-      - web
-    ports:
-      - 80:80
-      - 443:443
+      dmz:
+        ipv4_address: 192.168.7.11
+      web:
     volumes:
-      - traefik-conf:/etc/traefik
+      #- traefik-conf:/etc/traefik
+      - ./config/traefik/toml:/etc/traefik/toml
+      - ./config/traefik/traefik.toml:/etc/traefik/traefik.toml
       - traefik-acme:/etc/acme
       - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:
@@ -26,18 +27,16 @@ services:
       - "traefik.http.middlewares.traefik-redirect.redirectregex.replacement=https://$${1}/dashboard/"
       - "traefik.http.middlewares.traefik-redirect.redirectregex.permanent=true"
 
-      - "traefik.http.routers.traefik.rule=Host(`traefik.${DOMAINNAME}`)"
-      - "traefik.http.routers.traefik.middlewares=authelia@docker,traefik-redirect@docker"
-      - "traefik.http.routers.traefik.service=api@internal"
-      - "traefik.http.routers.traefik.entrypoints=websecure"
-      - "traefik.http.routers.traefik.tls.certresolver=tls"
-
-      - "traefik.http.services.traefik.loadbalancer.server.port=8083"
-
+      - "traefik.http.routers.dashboard.entrypoints=websecure"
+      - "traefik.http.routers.dashboard.middlewares=traefik-redirect@docker,chain-oauth@file"
+      - "traefik.http.routers.dashboard.rule=Host(`traefik.${DOMAINNAME}`)"
+      - "traefik.http.routers.dashboard.tls.certResolver=tls"
+      - "traefik.http.routers.dashboard.service=api@internal"
+      - "traefik.http.services.dashboard.loadbalancer.server.port=8080"
 
   portainer:
     container_name: portainer
-    image: portainer/portainer
+    image: portainer/portainer:1.24.2-alpine
     command: -H unix:///var/run/docker.sock --admin-password '${PORTAINER_PASSWORD_HASH}'
     restart: unless-stopped
     networks:
@@ -54,14 +53,15 @@ services:
       - "traefik.docker.network=web"
 
       - "traefik.http.routers.portainer.entrypoints=websecure"
+      - "traefik.http.routers.portainer.middlewares=chain-oauth@file"
       - "traefik.http.routers.portainer.rule=Host(`portainer.${DOMAINNAME}`)"
       - "traefik.http.routers.portainer.tls.certResolver=tls"
       - "traefik.http.routers.portainer.service=portainer@docker"
       - "traefik.http.services.portainer.loadbalancer.server.port=9000"
 
   authelia:
-    image: authelia/authelia
     container_name: authelia
+    image: authelia/authelia:4.29
     volumes:
       - ./config/authelia:/config
     networks:
@@ -87,6 +87,8 @@ services:
 
 networks:
   web:
+    external: true
+  dmz:
     external: true
 
 volumes:
